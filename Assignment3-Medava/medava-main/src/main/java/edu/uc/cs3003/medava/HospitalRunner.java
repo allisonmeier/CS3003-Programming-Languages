@@ -3,8 +3,8 @@ package edu.uc.cs3003.medava;
 public class HospitalRunner {
 
     public static void run() {
-        Transporter semiTruck = new Transporter();
-
+        Transporter semiTruck = new Transporter("LaserShip", 30.0, 80.0);
+        
         Pharmacy cvs = new Pharmacy("CVS at 7500 Beechmont Avenue");
 
         cvs.send(semiTruck);
@@ -13,5 +13,5 @@ public class HospitalRunner {
 
         uc.receive(semiTruck);
     }
-    
+
 }
