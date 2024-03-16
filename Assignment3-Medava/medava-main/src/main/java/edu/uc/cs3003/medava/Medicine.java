@@ -1,6 +1,6 @@
 package edu.uc.cs3003.medava;
 
-public class Medicine {
+public abstract class Medicine {
     
     // Declare vars
     private String mMedicineName;
@@ -31,5 +31,7 @@ public class Medicine {
     public double maximumTemperature() {
         return 100.0;
     }
+
+    public abstract MedicineSchedule getSchedule();
 
 }
