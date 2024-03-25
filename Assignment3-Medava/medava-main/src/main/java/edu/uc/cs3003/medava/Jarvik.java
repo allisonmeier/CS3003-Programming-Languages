@@ -1,6 +1,6 @@
 package edu.uc.cs3003.medava;
 
-public class Jarvik {
+public class Jarvik implements Shippable {
     Jarvik(String deviceSerialNumber) {
       serialNumber = deviceSerialNumber;
     }

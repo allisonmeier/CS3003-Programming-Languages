@@ -1,6 +1,6 @@
 package edu.uc.cs3003.medava;
 
-public abstract class Medicine {
+public abstract class Medicine implements Shippable {
     
     // Declare vars
     private String mMedicineName;

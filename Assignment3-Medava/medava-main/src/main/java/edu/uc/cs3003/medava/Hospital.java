@@ -14,6 +14,7 @@ public class Hospital {
 
     // Methods
 
+    /* 
     void receive(Transporter t) {
         while (!t.isEmpty()) {
             try {
@@ -32,6 +33,20 @@ public class Hospital {
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
                 // No need to do anything
+            }
+        }
+    }
+    */
+
+    void receive(Transporter t) {
+        while (!t.isEmpty()) {
+            Shippable unloaded = t.unload();
+            System.out.println(String.format("Checking whether Hospital can receive %s.", unloaded.getMedicineName()));
+            if (unloaded.getSchedule() != MedicineSchedule.Uncontrolled) {
+                System.out.println(String.format("Hospital cannot receive controlled substances and %s is a %s.",
+                        unloaded.getMedicineName(), unloaded.getSchedule().asString()));
+            } else {
+                System.out.println(String.format("Accepted a shipment of %s.", unloaded.getMedicineName()));
             }
         }
     }

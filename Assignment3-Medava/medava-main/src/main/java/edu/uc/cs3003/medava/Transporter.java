@@ -8,10 +8,10 @@ public class Transporter {
 
     // Declare vars
     private String mTransporterName;
-    private List<Object> goods;
+    private List<Shippable> goods;
     private double mLowTemperature, mHighTemperature;
     {
-        goods = new ArrayList<Object>();
+        goods = new ArrayList<Shippable>();
     }
 
     // Constructor
@@ -31,6 +31,7 @@ public class Transporter {
         // Do some shipping!
     }
 
+    /* 
     public boolean load(Object itemToLoad) {
         try {
             Method isTemperatureRangeAcceptableMethod = itemToLoad.getClass().getMethod("isTemperatureRangeAcceptable",
@@ -50,6 +51,19 @@ public class Transporter {
     public Object unload() {
         return goods.remove(0);
     }
+    */
+
+    public Shippable unload() {
+        return goods.remove(0);
+    }
+
+    public boolean load(Shippable itemToLoad) {
+        if (itemToLoad.isTemperatureRangeAcceptable(mLowTemperature, mHighTemperature)) {
+            return goods.add(itemToLoad);
+        }
+        return false;
+    }
+
     public boolean isEmpty() {
         return goods.isEmpty();
     }
