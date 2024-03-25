@@ -1,3 +1,5 @@
+Link to original instructions: https://github.com/hawkinsw/medava
+
 ## Medava
 
 Java is an amazing language. The original designers, James Gosling, Bill Joy and Guy Steele, described it as, "... a general-purpose concurrent class-based object-oriented programming language" (sic). By now, as programming-language enthusiasts, you should recognize those words. In particular, we are focused here on the fact that they describe Java as a class-based (ie, *not* prototypal), object-oriented programming language. By virtue of its support for OOP and the criteria we set for such a language to be considered such a language, we can assume that Java supports
