@@ -1,0 +1,11 @@
+
+
+To be honest, I didn't have a lot of questions on this. 
+Java was the first programming language I ever learned, back in AP CSA, so this was similar to our "zoo" project we did; 
+different animals, classifications of those animals, methods for them to enact (ie, roar, squawk, chirp), etc. 
+
+Since this was more of a refresher, my questions were more of "oh, that's something I didn't know before" moments.
+
+1. Is there ever really a time that Java is THE language to use? I thought this then, and am thinking it now: it just seems like so much clutter, that could more easily be imitated with Python or another language, and doesn't make up for it with flexibility or some other benefit.
+2. Is there a reason to ever really use abstract methods in lieu of virtual methods? If there isn't a need for a default method, I can see why it'd be useful, but in my mind it feels like having that scaffolding for future usage and development would be optimal.
+3. What other, if any, use cases are there for Override type annotations? This was something new to my knowledge of Java, and was one of the more interesting bits of knowledge I took away from this.
