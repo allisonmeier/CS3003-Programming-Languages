@@ -23,17 +23,16 @@ data Found = Match Int | NoMatch deriving Eq
 instance Show Found where
   show (Match index) = "Found match at " ++ show index
   show NoMatch = "No match found!"
-{-
+
+-- Actual function:
 findFirst :: Eq a => (a -> Bool) -> [a] -> Found 
-findFirst _ [] = NoMatch --if the list is empty, NoMatch
-findFirst needle haystack = search 0 haystack -- start at index 0
-  where -- use search to go through everything while also tracking current index
-    search :: Int -> [a] -> Found
-    search _ [] = NoMatch
-    search index (thing:restOfThings)
-      | needle thing = Match index --if needle returns True for current thing, return current index
-      | otherwise = search (index + 1) restOfThings --if not, keep searching the rest of the list
--}
+findFirst needle haystack = findFirstHelper needle haystack 0 -- start at index 0
+ 
+-- Helper function:
+findFirstHelper _ [] _ = NoMatch --if the list is empty, NoMatch
+findFirstHelper needle (i:list) index | needle i = Match index -- if index i == true (for "is the needle here?"), match
+findFirstHelper needle (i:list) index = findFirstHelper needle list (index + 1) -- if !match, keep searchin
+
 ------------------------------------------------
 {- 
 palindrome
@@ -52,5 +51,6 @@ The empty string is a palindrome. Strings will contain only lowercase letters.
 palindrome :: [Char] -> Bool
 palindrome [] = True  --empty string counts as palindrome
 palindrome word = word == reverse word  --check if string = reverse string
+  -- upper line not right fyi
 
 
