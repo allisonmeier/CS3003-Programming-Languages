@@ -13,6 +13,39 @@ class DynamicScope(abc.Mapping):
     def __init__(self):
         self.env: Dict[str, Optional[Any]] = {}
 
+    def __getitem__(self, key: str):
+        if not key in self.env:
+            raise NameError
+        
+        return self.env[key]
+
+    def __setitem__(self, key: str, value):
+        self.env[key] = value
+
+    def __len__(self): 
+        return __len__(self.env) #FYI: fact that __len__ isn't defined isn't causing problems. just ignore
+    
+    def __iter__(self) -> Iterator:
+        return self.env.__iter__()
+
 
 def get_dynamic_re() -> DynamicScope:
-    return None
+
+    stackDict = DynamicScope() # object, dict of whatever is in the applicable stack
+
+
+    stackList = inspect.stack() # list of all the stuff in the stack, in order 
+    stackList = stackList[1:] # cut off the first item in the list (just a bunch of loud, wordy info that I don't need)
+
+    for itemInStackInfo in stackList:
+        print(itemInStackInfo.frame.f_locals)
+        for individualInfo in itemInStackInfo.frame.f_locals:
+            #print(x)
+            #print(itemInStackInfo.frame.f_locals[individualInfo])
+            if not individualInfo in stackDict.env:
+                #print("not here")
+                stackDict.env[individualInfo] = itemInStackInfo.frame.f_locals[individualInfo]
+            #else:
+                #print("duplicate")
+
+    return stackDict
