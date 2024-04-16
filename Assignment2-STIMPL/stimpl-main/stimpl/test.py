@@ -20,6 +20,7 @@ class TestingLiteralError(Exception):
 
 def check_equal(expected, actual):
     if expected != actual:
+        #print(f"check_equal function. Expected: {expected}. Actual: {actual}.")
         raise TestingError(expected, actual)
 
 
@@ -85,7 +86,7 @@ def run_stimpl_sanity_tests():
 
         # Mathematical Expression Errors (5 pts)
         program = Add(FloatingPointLiteral(1.0), IntLiteral(1))
-        check_program_raises(InterpTypeError(), program)
+        check_program_raises(InterpTypeError(), program)#error here
         program = Add(IntLiteral(1), FloatingPointLiteral(1.0))
         check_program_raises(InterpTypeError(), program)
         program = Add(BooleanLiteral(True), BooleanLiteral(True))
