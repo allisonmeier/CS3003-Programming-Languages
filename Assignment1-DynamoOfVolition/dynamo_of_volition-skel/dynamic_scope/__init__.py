@@ -31,24 +31,28 @@ class DynamicScope(abc.Mapping):
 
 def get_dynamic_re() -> DynamicScope:
 
-    stackDict = DynamicScope() # object, dict of whatever is in the applicable stack
+    stackScope = DynamicScope() # object, dict of whatever is in the applicable stack
 
     stackList = inspect.stack() # list of all the stuff in the stack, in order 
-    stackList = stackList[1:] # cut off the first item in the list (just a bunch of loud, wordy info that I don't need)
 
-    for itemInStackInfo in stackList:
-        freeVariablesList = list(itemInStackInfo.frame.f_code.co_freevars)
+    # cut off the first item in the list (just a bunch of loud, wordy info that I don't need)
+    for stackItem in stackList[1:]:
+        freeVars = list(stackItem.frame.f_code.co_freevars)
+        localVars = stackItem.frame.f_locals
+        
+        everyVarInclUnboundOnes = list(stackItem.frame.f_code.co_cellvars + stackItem.frame.f_code.co_varnames)
+        print(everyVarInclUnboundOnes)
 
-        for individualInfo in itemInStackInfo.frame.f_locals:
-            # if individualInfo isn't already listed in the stack dict strings, deal with that by adding it in.
+        for infoStr in localVars:
+            # if infoStr isn't already listed in the stack dict strings, deal with that by adding it in.
                 # also, filter out free variables 
-            if not individualInfo in stackDict.env and not individualInfo in freeVariablesList:
+            if not infoStr in stackScope.env and not infoStr in freeVars:
                 #print("not here")
-                stackDict.env[individualInfo] = itemInStackInfo.frame.f_locals[individualInfo]
+                stackScope.env[infoStr] = localVars[infoStr]
 
         # FYI to help ID any sneaky free variables
-        for item in stackDict:
-            if item in freeVariablesList:
-                print(f'You missed a free variable called {item} at {stackDict[item]}')
+        for item in stackScope:
+            if item in freeVars:
+                print(f'You missed a free variable called {item} at {stackScope[item]}')
 
-    return stackDict
+    return stackScope
