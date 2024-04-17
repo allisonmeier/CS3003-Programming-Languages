@@ -33,19 +33,29 @@ def get_dynamic_re() -> DynamicScope:
 
     stackDict = DynamicScope() # object, dict of whatever is in the applicable stack
 
-
     stackList = inspect.stack() # list of all the stuff in the stack, in order 
     stackList = stackList[1:] # cut off the first item in the list (just a bunch of loud, wordy info that I don't need)
 
+    
+
     for itemInStackInfo in stackList:
-        print(itemInStackInfo.frame.f_locals)
+        #print(itemInStackInfo.frame.f_locals)
+        freeVariablesList = list(itemInStackInfo.frame.f_code.co_freevars)
+
         for individualInfo in itemInStackInfo.frame.f_locals:
             #print(x)
             #print(itemInStackInfo.frame.f_locals[individualInfo])
-            if not individualInfo in stackDict.env:
+            #if individualInfo in freeVariablesList:
+                #print(f'HEY THERES A FREE VAR RIGHT HERE CALLED {individualInfo}')
+
+            if not individualInfo in stackDict.env and not individualInfo in freeVariablesList:
                 #print("not here")
                 stackDict.env[individualInfo] = itemInStackInfo.frame.f_locals[individualInfo]
             #else:
                 #print("duplicate")
+
+        for item in stackDict:
+            if item in freeVariablesList:
+                print(f'You missed a free variable called {item} at {stackDict[item]}')
 
     return stackDict
