@@ -23,7 +23,7 @@ class DynamicScope(abc.Mapping):
         self.env[key] = value
 
     def __len__(self): 
-        return __len__(self.env) #FYI: fact that __len__ isn't defined isn't causing problems. just ignore
+        return self.env[1:] 
     
     def __iter__(self) -> Iterator:
         return self.env.__iter__()
@@ -36,24 +36,17 @@ def get_dynamic_re() -> DynamicScope:
     stackList = inspect.stack() # list of all the stuff in the stack, in order 
     stackList = stackList[1:] # cut off the first item in the list (just a bunch of loud, wordy info that I don't need)
 
-    
-
     for itemInStackInfo in stackList:
-        #print(itemInStackInfo.frame.f_locals)
         freeVariablesList = list(itemInStackInfo.frame.f_code.co_freevars)
 
         for individualInfo in itemInStackInfo.frame.f_locals:
-            #print(x)
-            #print(itemInStackInfo.frame.f_locals[individualInfo])
-            #if individualInfo in freeVariablesList:
-                #print(f'HEY THERES A FREE VAR RIGHT HERE CALLED {individualInfo}')
-
+            # if individualInfo isn't already listed in the stack dict strings, deal with that by adding it in.
+                # also, filter out free variables 
             if not individualInfo in stackDict.env and not individualInfo in freeVariablesList:
                 #print("not here")
                 stackDict.env[individualInfo] = itemInStackInfo.frame.f_locals[individualInfo]
-            #else:
-                #print("duplicate")
 
+        # FYI to help ID any sneaky free variables
         for item in stackDict:
             if item in freeVariablesList:
                 print(f'You missed a free variable called {item} at {stackDict[item]}')
