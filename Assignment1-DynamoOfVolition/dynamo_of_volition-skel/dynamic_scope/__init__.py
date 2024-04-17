@@ -16,7 +16,8 @@ class DynamicScope(abc.Mapping):
     def __getitem__(self, key: str):
         if not key in self.env:
             raise NameError
-        
+        if self.env[key] == '__unbound__':
+            raise UnboundLocalError('Unbound Local error boooo')
         return self.env[key]
 
     def __setitem__(self, key: str, value):
@@ -27,7 +28,6 @@ class DynamicScope(abc.Mapping):
     
     def __iter__(self) -> Iterator:
         return self.env.__iter__()
-
 
 def get_dynamic_re() -> DynamicScope:
 
@@ -41,7 +41,6 @@ def get_dynamic_re() -> DynamicScope:
         localVars = stackItem.frame.f_locals
         
         everyVarInclUnboundOnes = list(stackItem.frame.f_code.co_cellvars + stackItem.frame.f_code.co_varnames)
-        print(everyVarInclUnboundOnes)
 
         for infoStr in localVars:
             # if infoStr isn't already listed in the stack dict strings, deal with that by adding it in.
@@ -54,5 +53,12 @@ def get_dynamic_re() -> DynamicScope:
         for item in stackScope:
             if item in freeVars:
                 print(f'You missed a free variable called {item} at {stackScope[item]}')
+        
+        # make sure there's no local vars messing around still
+            # and that the list of every single var actually exists 
+        if len(localVars)==0 and len(everyVarInclUnboundOnes)>0:
+            for var in everyVarInclUnboundOnes:
+                # the only stuff left must be unbound
+                stackScope[var] = '__unbound__'
 
     return stackScope
